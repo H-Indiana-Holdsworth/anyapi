@@ -46,4 +46,11 @@ describe('anyapi routes', () => {
       },
     ]);
   });
+
+  it('gets a snack by id', async () => {
+    const snack = await insert({ food: 'Chocolate', type: 'Candy' });
+    const res = await request(app).get(`/api/v1/snacks/${snack.id}`);
+
+    expect(res.body).toEqual(snack);
+  });
 });
