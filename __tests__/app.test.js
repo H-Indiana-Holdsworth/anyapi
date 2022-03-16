@@ -54,4 +54,20 @@ describe('anyapi routes', () => {
 
     expect(res.body).toEqual(snack);
   });
+
+  it('updates a snack', async () => {
+    const snack = await insert({ food: 'Chocolate', type: 'Candy' });
+
+    const res = await request(app)
+      .patch(`/api/v1/snacks/${snack.id}`)
+      .send({ food: 'Pub Mix', type: 'Salty' });
+
+    const expected = {
+      id: expect.any(String),
+      food: 'Pub Mix',
+      type: 'Salty',
+    };
+
+    expect(res.body).toEqual(expected);
+  });
 });
