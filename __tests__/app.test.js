@@ -69,6 +69,7 @@ describe('anyapi routes', () => {
     };
 
     expect(res.body).toEqual(expected);
+    expect(await getById(snack.id)).toEqual(expected);
   });
 
   it('deletes a snack', async () => {
