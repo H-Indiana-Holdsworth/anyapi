@@ -2,7 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
-const { insert } = require('../lib/models/Snack');
+const { insert, getById } = require('../lib/models/Snack');
 
 // this is just for the test while we don't have the order model built out
 // async function createSnack({food, type}) {
@@ -69,5 +69,14 @@ describe('anyapi routes', () => {
     };
 
     expect(res.body).toEqual(expected);
+  });
+
+  it('deletes a snack', async () => {
+    const snack = await insert({ food: 'Chocolate', type: 'Candy' });
+
+    const res = await request(app).delete(`/api/v1/snacks/${snack.id}`);
+
+    expect(res.body).toEqual(snack);
+    expect(await getById(snack.id)).toBeNull();
   });
 });
